@@ -5,7 +5,7 @@ module Kook
     attr_accessor :content_document_providers
 
     def initialize(metadata = {})
-      @metadata = metadata.merge({title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid})
+      @metadata = {title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid}.merge metadata
       @content_document_providers = []
     end
 
