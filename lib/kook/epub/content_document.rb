@@ -1,4 +1,8 @@
 module Kook
+
+  # ContentDocument is a wrapper for an object that responds to one of PROVIDE_METHODS
+  # It generates an #outline (for the Table of Contents) and extracts any images from the XHTML provided.
+
   class ContentDocument
 
     PROVIDE_METHODS = [:to_xhtml, :read, :to_s]
