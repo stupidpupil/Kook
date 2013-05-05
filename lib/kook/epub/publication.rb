@@ -11,10 +11,14 @@ module Kook
 
     def build_directory(path)
 
+      render = Proc.new do |template_path|
+        File.write(File.join(path,template_path), Kook.engine_for_template(template_path+".haml").render(binding))
+      end
+
       File.write(File.join(path,'mimetype'), File.read(Kook.path_for_template('mimetype')))
 
       Dir.mkdir(File.join(path,'META-INF'))
-      File.write(File.join(path,'META-INF/container.xml'), Kook.engine_for_template('meta-inf/container.xml.haml').render(binding))
+      render.call 'META-INF/container.xml'
 
       #
       # Content Documents
@@ -35,12 +39,14 @@ module Kook
 
       # Package file - manifest, spine, etc.
 
-      File.write(File.join(path,'epub/package.opf'), Kook.engine_for_template('epub/package.opf.haml').render(binding))
+      render.call 'epub/package.opf'
 
       # Navigation file
       Dir.mkdir(File.join(path,'epub/navigation'))
-      File.write(File.join(path,'epub/navigation/nav.xhtml'), Kook.engine_for_template('epub/navigation/nav.xhtml.haml').render(binding))
+      render.call 'epub/navigation/nav.xhtml'
+
     end
+
 
   end
 
