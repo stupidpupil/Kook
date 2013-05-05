@@ -24,21 +24,43 @@ module Kook
       # Content Documents
       #
 
-      content_documents = @content_documents
+      content_documents = @content_documents.dup
+
+      uri_map = {}
+      content_documents.each do |doc|
+        uri_map[doc.source_uri] = doc
+      end
+
 
       Dir.mkdir(File.join(path,'epub'))
-      Dir.mkdir(File.join(path,'epub/content'))
 
       # This is run first to ensure that any necessary anchors are in place before they're written out
       toc_sections = content_documents.map{|doc| doc.outline}.inject([],:+)
 
       # Get any image references (adding them to map)
+      media_resources = []
+      image_uris = content_documents.map {|doc| doc.img_src_uris}.flatten.uniq
+
+      image_uris.each do |uri|
+        resource = PublicationResource.new(uri)
+        media_resources << resource
+        uri_map[uri] = resource
+      end
 
       # Rewrite Content Documents
 
+      content_documents.each {|doc| doc.rewrite_using_uri_map(uri_map)}
+
+      Dir.mkdir(File.join(path,'epub/content'))
 
       content_documents.each do |doc|
         doc.write(path)
+      end
+
+      Dir.mkdir(File.join(path,'epub/media'))
+
+      media_resources.each do |rsrc|
+        rsrc.write(path)
       end
 
       render.call 'epub/content/cover.xhtml'

@@ -2,11 +2,8 @@ module Kook
 
   class ContentDocument < PublicationResource
 
-
-    attr_reader :epub_id, :source_uri
-
     def self.new_with_xml(xml)
-      ContentDocument.new(xml, nil)
+      ContentDocument.new(xml, URI.parse(''))
     end
 
     def self.new_with_path(path)
@@ -14,14 +11,30 @@ module Kook
       source_uri = URI.parse("file://"+Pathname.new(path).realpath.to_s)
       ContentDocument.new(xml, source_uri)
     end
+
+    def self.new_with_uri(uri)
+      xml = open(uri).read
+      source_uri = URI.parse(uri)
+      ContentDocument.new(xml, source_uri)
+    end
   
     def initialize(xml, source_uri)
+      @source_uri = source_uri
+      @epub_id = "ContDoc"+SecureRandom.uuid.gsub("-","")
       @noko_doc = Nokogiri.XML(xml)
-      @epub_id = SecureRandom.uuid.gsub("-","")
     end
 
+    def epub_basepath
+      "content"
+    end
+
+
     def extension
-      ".xhtml"
+      '.xhtml'
+    end
+
+    def media_type
+      'application/xhtml+xml'
     end
 
     #
@@ -62,9 +75,15 @@ module Kook
     end
 
     def img_src_uris
-      ret = []
+      uris = @noko_doc.css('img').map {|img| self.source_uri.merge(img['src'])}
+      uris.each {|u| u.fragment = nil}
+      return uris
+    end
+
+    def rewrite_using_uri_map(uri_map)
       @noko_doc.css('img').each do |img|
-        ret << self.source_uri.merge(img.attr('src'))
+        uri = self.source_uri.merge(img['src'])
+        img['src'] = "../"+uri_map[uri].epub_fullpath if uri_map.has_key? uri
       end
     end
 

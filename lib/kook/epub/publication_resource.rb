@@ -2,10 +2,18 @@ module Kook
 
   class PublicationResource
 
-    attr_reader :epub_id
+    attr_reader :epub_id, :source_uri
+
+    def initialize(source_uri)
+      @source_uri = source_uri
+      @epub_id = "PubRes" + SecureRandom.uuid.gsub("-","")
+
+      open_arg = source_uri.scheme == 'file' ? source_uri.path : source_uri.to_s
+      @data = open(open_arg).read
+    end
 
     def to_s
-      raise 'No to_s defined!'
+      @data.to_s
     end
 
     def write(build_path)
@@ -13,15 +21,19 @@ module Kook
     end
 
     def extension
-      raise 'No extension defined!'
+      Pathname.new(@source_uri.path).extname
     end
 
-    def epub_filename
-      "#{epub_id}.#{extension}"
+    def media_type
+      "image/" + extension
     end
 
     def epub_basepath
-      "content"
+      "media"
+    end
+
+    def epub_filename
+      "#{epub_id}#{extension}"
     end
 
     def epub_fullpath
