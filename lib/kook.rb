@@ -17,6 +17,7 @@ end
 
 require 'kook/nokogiri/html5_outline'
 require 'kook/epub/publication'
+require 'kook/epub/publication_resource'
 require 'kook/epub/content_document'
 
 

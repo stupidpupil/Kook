@@ -3,7 +3,7 @@ module Kook
   # ContentDocument is a wrapper for an object that responds to one of PROVIDE_METHODS
   # It generates an #outline (for the Table of Contents) and extracts any images from the XHTML provided.
 
-  class ContentDocument
+  class ContentDocument < PublicationResource
 
     PROVIDE_METHODS = [:to_xhtml, :read, :to_s]
 
@@ -25,20 +25,20 @@ module Kook
 
     end
 
-    def to_s
-      return @noko_doc.to_xml
+    def extension
+      ".xhtml"
     end
 
     def epub_id
       "content_#{index}"
     end
 
-    def filename
-      "#{epub_id}.xhtml"
-    end
+    #
+    #
+    #
 
-    def path
-      "content/#{filename}"
+    def to_s
+      return @noko_doc.to_xml
     end
 
     def outline
