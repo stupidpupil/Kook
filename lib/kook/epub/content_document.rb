@@ -47,17 +47,18 @@ module Kook
       o = @noko_doc.html5_outline
 
       anchor_section = Proc.new do |section|
-        if not section[:heading_elem].nil?
-            elem = section[:heading_elem]
-        elsif not section[:section_elem].nil?
+        if not section[:section_elem].nil?
             elem = section[:section_elem]
+        elsif not section[:heading_elem].nil?
+            elem = section[:heading_elem]
         end
 
-        anchor_elem = elem.add_previous_sibling "<a id='kook-toc-anchor-#{SecureRandom.uuid}' class='kook-toc-anchor' />"
-
-        section[:anchor_elem] = anchor_elem
-        section[:path] = self.epub_fullpath
-        section[:href] = "#{self.epub_fullpath}##{anchor_elem.attr('id')}"
+        if elem.name == 'body'
+          section[:href] = "#{self.epub_fullpath}"
+        else
+          elem['id'] = "kook-toc-id-#{SecureRandom.uuid}" if elem['id'].nil?
+          section[:href] = "#{self.epub_fullpath}##{elem['id']}"
+        end
 
         section[:sections].each {|ss| anchor_section.call ss}
       end
