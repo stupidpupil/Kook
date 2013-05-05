@@ -2,12 +2,11 @@ module Kook
   class Publication
 
     attr_reader :metadata
-    attr_accessor :content_document_providers
+    attr_accessor :content_documents, :path_map
 
     def initialize(metadata = {})
       @metadata = {title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid}.merge metadata
-      @content_document_providers = []
-      @filename_map = {}
+      @content_documents = []
     end
 
     def build_directory(path)
@@ -25,13 +24,18 @@ module Kook
       # Content Documents
       #
 
-      content_documents = @content_document_providers.map {|p| ContentDocument.new(p)}
+      content_documents = @content_documents
 
       Dir.mkdir(File.join(path,'epub'))
       Dir.mkdir(File.join(path,'epub/content'))
 
-      # This is run first to ensure that any necessary anchors are in place
+      # This is run first to ensure that any necessary anchors are in place before they're written out
       toc_sections = content_documents.map{|doc| doc.outline}.inject([],:+)
+
+      # Get any image references (adding them to map)
+
+      # Rewrite Content Documents
+
 
       content_documents.each do |doc|
         doc.write(path)

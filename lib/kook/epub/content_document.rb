@@ -1,23 +1,16 @@
 module Kook
 
-  # ContentDocument is a wrapper for an object that responds to one of PROVIDE_METHODS
-  # It generates an #outline (for the Table of Contents) and extracts any images from the XHTML provided.
-
   class ContentDocument < PublicationResource
 
-    PROVIDE_METHODS = [:to_xhtml, :read, :to_s]
 
-    attr_reader :epub_id
+    attr_reader :epub_id, :source_uri
+
+    def self.new_with_xml(xml)
+      ContentDocument.new(xml, nil)
+    end
   
-    def initialize(provider)
-      xml = nil
-      PROVIDE_METHODS.each do |m|
-        xml = provider.send(m) if provider.respond_to? m
-        break if not xml.nil?
-      end
-      raise "#{provider} responded to none of #{PROVIDE_METHODS.inspect}" if xml.nil?
+    def initialize(xml, source_uri)
       @noko_doc = Nokogiri.XML(xml)
-
       @epub_id = SecureRandom.uuid.gsub("-","")
     end
 
@@ -60,6 +53,13 @@ module Kook
       @outline = o
 
       return @outline
+    end
+
+    def referenced_images
+      ret = []
+      @noko_doc.css('img').each do |img|
+
+      end
     end
 
 
