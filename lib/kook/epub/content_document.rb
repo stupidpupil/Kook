@@ -7,10 +7,9 @@ module Kook
 
     PROVIDE_METHODS = [:to_xhtml, :read, :to_s]
 
-    attr_reader :index
+    attr_reader :epub_id
   
-    def initialize(provider, index)
-      @index = index
+    def initialize(provider)
 
       xml = nil
 
@@ -23,15 +22,14 @@ module Kook
 
       @noko_doc = Nokogiri.XML(xml)
 
+      @epub_id = SecureRandom.uuid.gsub("-","")
+
     end
 
     def extension
       ".xhtml"
     end
 
-    def epub_id
-      "content_#{index}"
-    end
 
     #
     #

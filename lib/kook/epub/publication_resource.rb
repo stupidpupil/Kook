@@ -2,6 +2,8 @@ module Kook
 
   class PublicationResource
 
+    attr_reader :epub_id
+
     def to_s
       raise 'No to_s defined!'
     end
@@ -12,10 +14,6 @@ module Kook
 
     def extension
       raise 'No extension defined!'
-    end
-
-    def epub_id
-      raise 'No epub_id defined!'
     end
 
     def epub_filename

@@ -24,8 +24,7 @@ module Kook
       # Content Documents
       #
 
-      content_documents = []
-      @content_document_providers.each_with_index {|p,i| content_documents << ContentDocument.new(p,i)}
+      content_documents = @content_document_providers.map {|p| ContentDocument.new(p)}
 
       Dir.mkdir(File.join(path,'epub'))
       Dir.mkdir(File.join(path,'epub/content'))
