@@ -10,26 +10,20 @@ module Kook
     attr_reader :epub_id
   
     def initialize(provider)
-
       xml = nil
-
       PROVIDE_METHODS.each do |m|
         xml = provider.send(m) if provider.respond_to? m
         break if not xml.nil?
       end
-
       raise "#{provider} responded to none of #{PROVIDE_METHODS.inspect}" if xml.nil?
-
       @noko_doc = Nokogiri.XML(xml)
 
       @epub_id = SecureRandom.uuid.gsub("-","")
-
     end
 
     def extension
       ".xhtml"
     end
-
 
     #
     #

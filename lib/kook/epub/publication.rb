@@ -7,6 +7,7 @@ module Kook
     def initialize(metadata = {})
       @metadata = {title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid}.merge metadata
       @content_document_providers = []
+      @filename_map = {}
     end
 
     def build_directory(path)
