@@ -8,6 +8,12 @@ module Kook
     def self.new_with_xml(xml)
       ContentDocument.new(xml, nil)
     end
+
+    def self.new_with_path(path)
+      xml = File.read(path)
+      source_uri = URI.parse("file://"+Pathname.new(path).realpath.to_s)
+      ContentDocument.new(xml, source_uri)
+    end
   
     def initialize(xml, source_uri)
       @noko_doc = Nokogiri.XML(xml)
@@ -55,10 +61,10 @@ module Kook
       return @outline
     end
 
-    def referenced_images
+    def img_src_uris
       ret = []
       @noko_doc.css('img').each do |img|
-
+        ret << self.source_uri.merge(img.attr('src'))
       end
     end
 

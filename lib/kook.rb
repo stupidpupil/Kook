@@ -1,6 +1,9 @@
 require 'securerandom'
 require 'haml'
 require 'nokogiri'
+require 'pathname'
+require 'uri'
+require 'open-uri'
 
 module Kook
 	DEFAULT_TEMPLATES_DIR = File.expand_path("../../templates/", __FILE__)
