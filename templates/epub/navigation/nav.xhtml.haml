@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE html>
+%html{xmlns:'http://www.w3.org/1999/xhtml', 'xmlns:epub' => 'http://www.idpf.org/2007/ops'}
+  %head
+  %style *[hidden] { display: none; }
+  %body
+
+    -# The toc nav element defines the primary navigational hierarchy of the EPUB Publication. 
+    -# It conceptually corresponds to a table of contents in a printed work.
+    -# http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav-def-types-toc
+    %nav{'epub:type' => 'toc', id:'toc'}
+      %h1 Table of Contents
+      %ol
+        - toc_sections.each do |s|
+          = Kook.engine_for_template('epub/navigation/_toc_section.xhtml.haml').render(s)
+
+    -# The landmarks nav element identifies fundamental structural components of the publication.
+    -# http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav-def-types-landmarks
+    %nav{'epub:type' => 'landmarks', hidden:''}
+      %h1 Guide
+      %ol
+        %li
+          %a{'epub:type' => 'toc', href:'#toc'} Table of Contents
+        - if toc_sections.any?
+          %li
+            %a{'epub:type' => 'bodymatter', href:"../"+toc_sections.first[:href]} Start of Content

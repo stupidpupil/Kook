@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+%package{xmlns:'http://www.idpf.org/2007/opf', version:'3.0', 'unique-identifier' => 'uuid-id'}
+  %metadata{'xmlns:dc' => 'http://purl.org/dc/elements/1.1/'}
+    %dc:identifier{id:'uuid-id'}= "urn:uuid:" + metadata[:uid]
+    %meta{property:'dcterms:modified'}= Time.now.utc.strftime("%FT%TZ")
+
+    - metadata.each_pair do |key, value|
+      - next if [:uid].include? key
+      - haml_tag "dc:#{key.to_s}", value
+
+
+  -#The manifest element provides an exhaustive list of the 'publication resources' (i.e. files) that constitute the publication
+  %manifest
+    %item{id:'nav', href:'navigation/nav.xhtml', properties:'nav', 'media-type' => 'application/xhtml+xml'}
+    - content_documents.each do |doc|
+      %item{id:doc.epub_id, href:doc.path, 'media-type' => 'application/xhtml+xml'}
+
+  
+  -#The spine element defines the default reading order of the publication
+  %spine
+    %itemref{idref:'nav'}
+    - content_documents.each do |doc|
+      %itemref{idref:doc.epub_id}
+
+  -# DEPRECATED: The guide element identifies fundamental structural components of the publication.
+  -# (Replaced by landmarks nav.)
+  %guide
+    %reference{type:'toc', title:"Table of Contents", href:'navigation/nav.xhtml#toc'}
+    - if toc_sections.any?
+      %reference{type:'text', title:"Start of Content", href:toc_sections.first[:href]}
