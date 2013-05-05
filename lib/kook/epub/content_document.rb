@@ -56,8 +56,8 @@ module Kook
         anchor_elem = elem.add_previous_sibling "<a id='kook-toc-anchor-#{SecureRandom.uuid}' class='kook-toc-anchor' />"
 
         section[:anchor_elem] = anchor_elem
-        section[:path] = self.path
-        section[:href] = "#{self.path}##{anchor_elem.attr('id')}"
+        section[:path] = self.epub_fullpath
+        section[:href] = "#{self.epub_fullpath}##{anchor_elem.attr('id')}"
 
         section[:sections].each {|ss| anchor_section.call ss}
       end

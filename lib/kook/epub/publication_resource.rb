@@ -2,6 +2,10 @@ module Kook
 
   class PublicationResource
 
+    def to_s
+      raise
+    end
+
     def extension
       raise "?!"
     end
@@ -10,16 +14,16 @@ module Kook
       raise "What should this be?!"
     end
 
-    def filename
+    def epub_filename
       "#{epub_id}.#{extension}"
     end
 
-    def folder
+    def epub_basepath
       "content"
     end
 
-    def path
-      "#{folder}/#{filename}"
+    def epub_fullpath
+      "#{epub_basepath}/#{epub_filename}"
     end
 
   end
