@@ -3,7 +3,7 @@ module Kook
   class PublicationResource
 
     def to_s
-      raise
+      raise 'No to_s defined!'
     end
 
     def write(build_path)
@@ -11,11 +11,11 @@ module Kook
     end
 
     def extension
-      raise "?!"
+      raise 'No extension defined!'
     end
 
     def epub_id
-      raise "What should this be?!"
+      raise 'No epub_id defined!'
     end
 
     def epub_filename
