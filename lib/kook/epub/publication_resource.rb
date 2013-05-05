@@ -25,7 +25,8 @@ module Kook
     end
 
     def media_type
-      "image/" + extension
+      return "image/png" if extension == ".png"
+      return "image/jpeg"
     end
 
     def epub_basepath

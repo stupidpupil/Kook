@@ -85,6 +85,14 @@ module Kook
         uri = self.source_uri.merge(img['src'])
         img['src'] = "../"+uri_map[uri].epub_fullpath if uri_map.has_key? uri
       end
+
+      @noko_doc.css('a').each do |a|
+        uri = self.source_uri.merge(a['href'])
+        fragment = uri.fragment.nil? ? "" : "#" + uri.fragment
+        uri.fragment = nil
+        a['href'] = "../" + uri_map[uri].epub_fullpath + fragment if uri_map.has_key? uri
+      end
+
     end
 
 
