@@ -34,7 +34,7 @@ module Kook
       toc_sections = content_documents.map{|doc| doc.outline}.inject([],:+)
 
       content_documents.each do |doc|
-        File.write(File.join(path,"epub",doc.epub_fullpath), doc.to_s)
+        doc.write(path)
       end
 
       render.call 'epub/content/cover.xhtml'

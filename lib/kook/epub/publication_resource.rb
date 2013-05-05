@@ -6,6 +6,10 @@ module Kook
       raise
     end
 
+    def write(build_path)
+      File.write(File.join(build_path,"epub",self.epub_fullpath), self.to_s)
+    end
+
     def extension
       raise "?!"
     end
