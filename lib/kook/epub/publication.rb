@@ -6,7 +6,8 @@ module Kook
 
     def initialize(metadata = {})
       @metadata = metadata.merge({title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid})
-      @content_document_providers = [] 
+      @content_document_providers = []
+      @cover_image = []
     end
 
     def build_directory(path)
@@ -36,6 +37,9 @@ module Kook
       content_documents.each do |doc|
         File.write(File.join(path,"epub",doc.path), doc.to_s)
       end
+
+      render.call 'epub/content/cover.xhtml'
+
 
       # Package file - manifest, spine, etc.
 
