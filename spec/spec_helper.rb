@@ -1,5 +1,6 @@
 require 'kook'
 
+# https://code.google.com/p/epubcheck/
 class EpubCheck
 
   JavaPath = "java"
