@@ -19,6 +19,7 @@ describe 'Nokogiri::XML::Document#html5_outline' do
         </div>
 
         <h1>Chapter 1</h1>
+        <p>The first paragraph of Chapter 1.</p>
         <section>
           <p>The text of an untitled section.</p>
         </section>
