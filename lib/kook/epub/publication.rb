@@ -52,18 +52,18 @@ module Kook
       content_documents.each {|doc| doc.rewrite_using_uri_map(uri_map)}
 
       Dir.mkdir(File.join(path,'epub/content'))
+      render.call 'epub/content/cover.xhtml'
 
       content_documents.each do |doc|
         doc.write(path)
       end
 
-      Dir.mkdir(File.join(path,'epub/media'))
+      Dir.mkdir(File.join(path,'epub/media')) if media_resources.any?
 
       media_resources.each do |rsrc|
         rsrc.write(path)
       end
 
-      render.call 'epub/content/cover.xhtml'
 
 
       # Package file - manifest, spine, etc.
