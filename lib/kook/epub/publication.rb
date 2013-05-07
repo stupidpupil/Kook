@@ -2,7 +2,7 @@ module Kook
   class Publication
 
     attr_reader :metadata
-    attr_accessor :content_documents, :path_map
+    attr_accessor :content_documents
 
     def initialize(metadata = {})
       @metadata = {title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid}.merge metadata
