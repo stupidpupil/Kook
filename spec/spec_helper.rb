@@ -14,3 +14,9 @@ class EpubCheck
   end
 
 end
+
+RSpec::Matchers.define :be_a_valid_epub do
+	match do |path|
+		EpubCheck.validate(path) == true
+	end
+end
