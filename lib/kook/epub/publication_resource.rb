@@ -26,6 +26,7 @@ module Kook
 
     def media_type
       return "image/png" if extension == ".png"
+      return "text/css" if extension == ".css"
       return "image/jpeg"
     end
 

@@ -39,9 +39,9 @@ module Kook
 
       # Get any image references (adding them to map)
       media_resources = []
-      image_uris = content_documents.map {|doc| doc.img_src_uris}.flatten.uniq
+      referenced_resource_uris = content_documents.map {|doc| doc.referenced_resource_uris}.flatten.uniq
 
-      image_uris.each do |uri|
+      referenced_resource_uris.each do |uri|
         resource = PublicationResource.new(uri)
         media_resources << resource
         uri_map[uri] = resource
@@ -63,7 +63,6 @@ module Kook
       media_resources.each do |rsrc|
         rsrc.write(path)
       end
-
 
 
       # Package file - manifest, spine, etc.

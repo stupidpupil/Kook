@@ -74,16 +74,27 @@ module Kook
       return @outline
     end
 
-    def img_src_uris
-      uris = @noko_doc.css('img').map {|img| self.source_uri.merge(img['src'])}
+    REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS = [
+      ['img','src'],
+      ['link','href']
+    ]
+
+    def referenced_resource_uris
+      uris = []
+      REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS.each do |c|
+        uris += @noko_doc.css(c[0]).map {|elem| self.source_uri.merge(elem[c[1]])}
+      end  
       uris.each {|u| u.fragment = nil}
       return uris
     end
 
     def rewrite_using_uri_map(uri_map)
-      @noko_doc.css('img').each do |img|
-        uri = self.source_uri.merge(img['src'])
-        img['src'] = "../"+uri_map[uri].epub_fullpath if uri_map.has_key? uri
+
+      REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS.each do |c|
+        @noko_doc.css(c[0]).each do |elem|
+          uri = self.source_uri.merge(elem[c[1]])
+          elem[c[1]] = "../"+uri_map[uri].epub_fullpath if uri_map.has_key? uri
+        end
       end
 
       @noko_doc.css('a').each do |a|
