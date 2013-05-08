@@ -3,7 +3,7 @@ require 'kook'
 # https://code.google.com/p/epubcheck/
 class EpubCheck
 
-  JavaPath = "java"
+  JavaPath = "drip"
   EpubCheckPath = "~/Downloads/epubcheck-3.0/epubcheck-3.0.jar"
 
   def self.validate(epub_path)
