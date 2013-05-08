@@ -19,29 +19,19 @@ module Kook
     end
   
     def initialize(xml, source_uri)
-      @source_uri = source_uri
-      @epub_id = "ContDoc"+SecureRandom.uuid.gsub("-","")
+      super source_uri
       @noko_doc = Nokogiri.XML(xml)
     end
 
-    def epub_basepath
+    def epub_dirname
       "content"
     end
 
-
-    def extension
-      '.xhtml'
-    end
-
-    def media_type
-      'application/xhtml+xml'
-    end
-
     #
     #
     #
 
-    def to_s
+    def read
       return @noko_doc.to_xml
     end
 
@@ -58,10 +48,10 @@ module Kook
         end
 
         if elem.name == 'body'
-          section[:href] = "#{self.epub_fullpath}"
+          section[:href] = "#{self.epub_path}"
         else
           elem['id'] = "kook-toc-id-#{SecureRandom.uuid}" if elem['id'].nil?
-          section[:href] = "#{self.epub_fullpath}##{elem['id']}"
+          section[:href] = "#{self.epub_path}##{elem['id']}"
         end
 
         section[:sections].each {|ss| anchor_section.call ss}
@@ -100,7 +90,7 @@ module Kook
       REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS.each do |c|
         @noko_doc.css(c[0]).each do |elem|
           uri = self.source_uri.merge(elem[c[1]])
-          elem[c[1]] = "../"+uri_map[uri].epub_fullpath if uri_map.has_key? uri
+          elem[c[1]] = "../"+uri_map[uri].epub_path if uri_map.has_key? uri
         end
       end
 
@@ -108,7 +98,7 @@ module Kook
         uri = self.source_uri.merge(a['href'])
         fragment = uri.fragment.nil? ? "" : "#" + uri.fragment
         uri.fragment = nil
-        a['href'] = "../" + uri_map[uri].epub_fullpath + fragment if uri_map.has_key? uri
+        a['href'] = "../" + uri_map[uri].epub_path + fragment if uri_map.has_key? uri
       end
 
     end

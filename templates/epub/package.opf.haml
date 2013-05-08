@@ -14,7 +14,7 @@
     %item{id:'cover', href:'content/cover.xhtml', 'media-type' => 'application/xhtml+xml'}
     %item{id:'nav', href:'navigation/nav.xhtml', properties:'nav', 'media-type' => 'application/xhtml+xml'}
     - (content_documents+media_resources).each do |doc|
-      %item{id:doc.epub_id, href:doc.epub_fullpath, 'media-type' => doc.media_type}
+      %item{id:doc.epub_id, href:doc.epub_path, 'media-type' => doc.media_type}
 
   
   -#The spine element defines the default reading order of the publication

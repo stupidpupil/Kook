@@ -1,46 +1,36 @@
 module Kook
 
   class PublicationResource
+    include MediaTypeable
 
     attr_reader :epub_id, :source_uri
 
     def initialize(source_uri)
       @source_uri = source_uri
       @epub_id = "PubRes" + SecureRandom.uuid.gsub("-","")
-
-      open_arg = source_uri.scheme == 'file' ? source_uri.path : source_uri.to_s
-      @data = open(open_arg).read
+      self.guess_media_type!
     end
 
-    def to_s
-      @data.to_s
+    def read
+      open_arg = source_uri.scheme == 'file' ? source_uri.path : source_uri.to_s
+      open(open_arg).read
     end
 
     def write(build_path)
-      File.write(File.join(build_path,"epub",self.epub_fullpath), self.to_s)
+      File.write(File.join(build_path,"epub",self.epub_path), self.read)
     end
 
-    def extension
-      Pathname.new(@source_uri.path).extname
-    end
-
-    def media_type
-      return "image/png" if extension == ".png"
-      return "text/css" if extension == ".css"
-      return "image/svg+xml" if extension == ".svg"
-      return "image/jpeg"
-    end
-
-    def epub_basepath
+    def epub_dirname
       "media"
     end
 
-    def epub_filename
-      "#{epub_id}#{extension}"
+    def epub_basename
+      "#{epub_id}#{epub_extname}"
     end
 
-    def epub_fullpath
-      "#{epub_basepath}/#{epub_filename}"
+    # Path from within the 'epub' directory
+    def epub_path
+      File.join(epub_dirname, epub_basename)
     end
 
   end
