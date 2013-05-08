@@ -1,3 +1,5 @@
+[![Code Climate](https://codeclimate.com/github/stupidpupil/Kook.png)](https://codeclimate.com/github/stupidpupil/Kook)
+
 # Kook - a limited EPUB 3.0 writing library
 
 Kook is a library that's designed for creating fairly simple EPUB books according to a slightly prescriptive formula, while handling fairly boring tasks like generating a [Table of Contents](http://www.idpf.org/epub/30/spec/epub30-contentdocs.html#sec-xhtml-nav) and ensuring that any referenced images or stylesheets are pulled in.
