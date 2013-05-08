@@ -31,6 +31,7 @@ This creates a Publication object, adds two content documents and then writes th
 - Convert ToC and Cover to ContentDocument subclasses (making it trivial for them to bring in images and stylesheets)
 - Provide some sort of hack to extend Sections over several Content Documents (allowing a Volume to take in several Chapters in several books). Perhaps a data attribute?
 - Publication#kindle! to mutilate the ContentDocuments as necessary to better support kindlegen/MOBI and its limitations (e.g. <center> elements).
+- Support data URIs
 
 ## See Also
 
