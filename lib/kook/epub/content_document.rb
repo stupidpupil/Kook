@@ -76,7 +76,14 @@ module Kook
 
     REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS = [
       ['img','src'],
-      ['link','href']
+      ['link','href'],
+      ['object','data'],
+      ['embed','src'],
+      ['iframe','src'],
+      ['video','src'],
+      ['audio','src'],
+      ['source','src'],
+      ['track','src']
     ]
 
     def referenced_resource_uris
