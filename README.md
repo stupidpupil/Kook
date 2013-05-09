@@ -18,15 +18,13 @@ This creates a Publication object, adds two content documents and then writes th
 
 ## Roadmap
 ### Bugs
-- Nokogiri::XML::Document.html5_outline doesn't support hgroup (but this might be dropped from the HTML5 spec anyway)
-- HTML5Section class, rather than nested hashes?
+- Kook::Outline#kook_outline doesn't support hgroup (but this might be dropped from the HTML5 spec anyway)
 - Stop using SecureRandom.uuid and hoping for the best...
 - Support all the [Core Media Types](http://www.idpf.org/epub/30/spec/epub30-publications.html#sec-core-media-types) properly.
 - Support various metadata properly - different titles, multiple authors and so on.
 
 ### Features and Hopes
 - Ensure that any referenced fonts are imported.
-- Allow the use of kook: URIs in documents, referencing PublicationResources by epub_id or something similar.
 - Sort out PublicationResource class structure - move out #new_with_uri etc. to a subclass
 - Convert ToC and Cover to ContentDocument subclasses (making it trivial for them to bring in images and stylesheets)
 - Provide some sort of hack to extend Sections over several Content Documents (allowing a Volume to take in several Chapters in several books). Perhaps a data attribute?
