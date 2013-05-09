@@ -6,7 +6,18 @@ module Kook
 
     def initialize(metadata = {})
       @metadata = {title:SecureRandom.uuid,language:'en-GB', uid:SecureRandom.uuid}.merge metadata
+      
       @content_documents = []
+    end
+
+    def toc_sections
+      content_documents.map{|doc| doc.outline}.inject([],:+)
+    end
+
+    def referenced_resources
+      uris = content_documents.map {|doc| doc.referenced_resource_uris}.flatten.uniq
+      uris.delete_if {|uri| uri.scheme == 'kook'}
+      uris.map { |uri| PublicationResource.new(uri)}
     end
 
     def build_directory(path)
@@ -20,45 +31,29 @@ module Kook
       Dir.mkdir(File.join(path,'META-INF'))
       render.call 'META-INF/container.xml'
 
-      #
-      # Content Documents
-      #
-
-      content_documents = @content_documents.dup
-
       uri_map = {}
-      content_documents.each do |doc|
-        uri_map[doc.source_uri] = doc
-      end
+      media_resources = referenced_resources
 
+      (content_documents+media_resources).each do |doc|
+        uri_map[doc.source_uri] = doc
+        uri_map[URI("kook://#{doc.epub_id}")] = doc
+      end
 
       Dir.mkdir(File.join(path,'epub'))
 
-      # This is run first to ensure that any necessary anchors are in place before they're written out
-      toc_sections = content_documents.map{|doc| doc.outline}.inject([],:+)
-
-      # Get any image references (adding them to map)
-      media_resources = []
-      referenced_resource_uris = content_documents.map {|doc| doc.referenced_resource_uris}.flatten.uniq
-
-      referenced_resource_uris.each do |uri|
-        resource = PublicationResource.new(uri)
-        media_resources << resource
-        uri_map[uri] = resource
-      end
 
       # Rewrite Content Documents
 
       content_documents.each {|doc| doc.rewrite_using_uri_map(uri_map)}
 
-      Dir.mkdir(File.join(path,'epub/content'))
+      Dir.mkdir(File.join(path,'epub', 'content'))
       render.call 'epub/content/cover.xhtml'
 
       content_documents.each do |doc|
         doc.write(path)
       end
 
-      Dir.mkdir(File.join(path,'epub/media')) if media_resources.any?
+      Dir.mkdir(File.join(path,'epub', 'media')) if media_resources.any?
 
       media_resources.each do |rsrc|
         rsrc.write(path)
@@ -70,7 +65,7 @@ module Kook
       render.call 'epub/package.opf'
 
       # Navigation file
-      Dir.mkdir(File.join(path,'epub/navigation'))
+      Dir.mkdir(File.join(path, 'epub', 'navigation'))
       render.call 'epub/navigation/nav.xhtml'
 
     end
