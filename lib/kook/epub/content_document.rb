@@ -21,6 +21,7 @@ module Kook
     def initialize(xml, source_uri)
       super source_uri
       @noko_doc = Nokogiri.XML(xml)
+      @noko_doc.extend(Kook::Outline)
     end
 
     def epub_dirname
@@ -38,28 +39,8 @@ module Kook
     def outline
       return @outline unless @outline.nil?
 
-      o = @noko_doc.html5_outline
-
-      anchor_section = Proc.new do |section|
-        if not section[:section_elem].nil?
-            elem = section[:section_elem]
-        elsif not section[:heading_elem].nil?
-            elem = section[:heading_elem]
-        end
-
-        if elem.name == 'body'
-          section[:href] = "#{self.epub_path}"
-        else
-          elem['id'] = "kook-toc-id-#{SecureRandom.uuid}" if elem['id'].nil?
-          section[:href] = "#{self.epub_path}##{elem['id']}"
-        end
-
-        section[:sections].each {|ss| anchor_section.call ss}
-      end
-
-      o.each {|s| anchor_section.call s}
-
-      @outline = o
+      @outline = @noko_doc.kook_outline
+      @outline.each {|s| s.set_href_with_path(epub_path)}
 
       return @outline
     end

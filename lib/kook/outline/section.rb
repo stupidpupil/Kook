@@ -20,6 +20,11 @@ module Kook
         parent << elem unless parent.nil?
       end
 
+      # The element that the user should be 'jumped' to when trying to view this section  
+      def relevant_element
+        section_element.nil? ? header_element : section_element
+      end
+
       def associate_header(elem)
         raise "Section is implicit." if self.implicit?
         raise "Element is not a header." if not HEADER_NAMES.include? elem.name
