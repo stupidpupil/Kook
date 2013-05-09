@@ -22,6 +22,10 @@ module Kook
 
 end
 
+require 'kook/outline/section'
+require 'kook/outline/outline'
+
+
 require 'kook/nokogiri/html5_outline'
 require 'kook/epub/publication'
 

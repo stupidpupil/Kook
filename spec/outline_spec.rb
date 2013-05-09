@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Nokogiri::XML::Document#html5_outline' do
+describe 'Kook::Outline#kook_outline' do
   it 'provides the expected outline for a slightly complex structure' do
     xhtml = %Q(
     <!DOCTYPE html>
@@ -34,9 +34,11 @@ describe 'Nokogiri::XML::Document#html5_outline' do
       )
     
     doc = Nokogiri.XML(xhtml)
-    doc.html5_outline.map{|s| s[:heading]}.should eql(['Prologue', 'Chapter 1'])
-    doc.html5_outline.first[:sections].map{|s| s[:heading]}.should eql(['Subprologue'])
-    doc.html5_outline.last[:sections].map{|s| s[:heading]}.should eql([nil,'Subchapter'])
+    doc.extend(Kook::Outline)
+
+    doc.kook_outline.map{|s| s.heading}.should eql(['Prologue', 'Chapter 1'])
+    doc.kook_outline.first.children.map{|s| s.heading}.should eql(['Subprologue'])
+    doc.kook_outline.last.children.map{|s| s.heading}.should eql(['Untitled Section','Subchapter'])
 
   end
 
@@ -64,8 +66,10 @@ describe 'Nokogiri::XML::Document#html5_outline' do
     )
 
     doc = Nokogiri.XML(xhtml)
-    doc.html5_outline.map{|s| s[:heading]}.should eql(['Forest elephants'])
-    doc.html5_outline.first[:sections].map{|s| s[:heading]}.should eql(['Habitat'])
+    doc.extend(Kook::Outline)
+
+    doc.kook_outline.map{|s| s.heading}.should eql(['Forest elephants'])
+    doc.kook_outline.first.children.map{|s| s.heading}.should eql(['Habitat'])
   end
 
   it 'provides the expected outline for MDN example 2' do
@@ -104,9 +108,10 @@ describe 'Nokogiri::XML::Document#html5_outline' do
       )
 
       doc = Nokogiri.XML(xhtml)
+      doc.extend(Kook::Outline)
 
-      doc.html5_outline.first[:sections].map{|s| s[:heading]}.should eql(['Forest elephants'])
-      doc.html5_outline.first[:sections].first[:sections].map{|s| s[:heading]}.should eql(['Introduction', 'Habitat', nil])
+      doc.kook_outline.first.children.map{|s| s.heading}.should eql(['Forest elephants'])
+      doc.kook_outline.first.children.first.children.map{|s| s.heading}.should eql(['Introduction', 'Habitat', 'Untitled Aside'])
 
   end
 
