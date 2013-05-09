@@ -22,9 +22,12 @@ describe Kook::Publication, :type => :feature do
       k.build_directory(d)
 
       visit File.join(d,'epub','navigation','nav.xhtml')
-      page.find(:xpath, "//*[text()='Chapter 1'][name()='a']").click
-      page.find(:xpath, "//*[text()='Chapter 1'][name()='h1']").should_not be_nil
+      page.find(:xpath, "//*[text()='Chapter 1'][name()='a']").should_not be_nil
+      page.find(:xpath, "//*[text()='Subchapter'][name()='a']").should_not be_nil
 
+      page.find(:xpath, "//*[text()='Chapter 1'][name()='a']").click
+
+      page.find(:xpath, "//*[text()='Chapter 1'][name()='h1']").should_not be_nil
     end
 
     it "should produce a valid EPUB Publication" do
