@@ -66,6 +66,14 @@ module Kook
       return uris
     end
 
+    def write_with_uri_map(path, uri_map)
+      freeze = self.read
+      rewrite_using_uri_map(uri_map)
+      write(path)
+      @noko_doc = Nokogiri.XML(freeze)
+      @noko_doc.extend(Kook::Outline)
+    end
+
     def rewrite_using_uri_map(uri_map)
 
       REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS.each do |c|

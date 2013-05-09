@@ -44,13 +44,13 @@ module Kook
 
       # Rewrite Content Documents
 
-      content_documents.each {|doc| doc.rewrite_using_uri_map(uri_map)}
+      #content_documents.each {|doc| doc.rewrite_using_uri_map(uri_map)}
 
       Dir.mkdir(File.join(path,'epub', 'content'))
       render.call 'epub/content/cover.xhtml'
 
       content_documents.each do |doc|
-        doc.write(path)
+        doc.write_with_uri_map(path, uri_map)
       end
 
       Dir.mkdir(File.join(path,'epub', 'media')) if media_resources.any?
