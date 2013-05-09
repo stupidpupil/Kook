@@ -30,4 +30,4 @@
     %reference{type:'cover', title:"Cover", href:'content/cover.xhtml'}
     %reference{type:'toc', title:"Table of Contents", href:'navigation/nav.xhtml#toc'}
     - if toc_sections.any?
-      %reference{type:'text', title:"Start of Content", href:toc_sections.first[:href]}
+      %reference{type:'text', title:"Start of Content", href:toc_sections.first.href}

@@ -1,5 +1,5 @@
 %li
-  %a{href:"../"+self[:href]}= self[:heading].nil? ? 'Untitled' : self[:heading]
+  %a{href:"../"+self.href}= self.heading
   %ol
-    - self[:sections].each do |s|
+    - self.children.each do |s|
       = Kook.engine_for_template('epub/navigation/_toc_section.xhtml.haml').render(s)

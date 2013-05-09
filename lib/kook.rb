@@ -26,7 +26,6 @@ require 'kook/outline/section'
 require 'kook/outline/outline'
 require 'kook/outline/href'
 
-require 'kook/nokogiri/html5_outline'
 require 'kook/epub/publication'
 
 require 'kook/epub/media_typeable'

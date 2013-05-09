@@ -22,6 +22,10 @@ describe Kook::Outline::Section do
       elem2 = Nokogiri::XML("<h2>Header Two</h2>").root
       expect{section.associate_header(elem2)}.to raise_error("Section is implicit.")
     end
+
+    it "identifies the h1 element as the relevant element" do
+      section.relevant_element.should eql(elem)
+    end
 	end
 
   context "when created with an article element" do
@@ -35,6 +39,11 @@ describe Kook::Outline::Section do
     it "has a heading of 'Untitled Article'" do
       section.heading.should eql('Untitled Article')
     end
+
+    it "identifies the article element as the relevant element" do
+      section.relevant_element.should eql(elem)
+    end
+
   end
 
   context "when created with an article and associated with a h4 element" do
@@ -50,6 +59,10 @@ describe Kook::Outline::Section do
 
     it "has a heading with the text of the header element" do
       section.heading.should eql('Header Four')
+    end
+
+    it "identifies the article element as the relevant element" do
+      section.relevant_element.should eql(elem)
     end
 
   end

@@ -24,4 +24,4 @@
           %a{'epub:type' => 'toc', href:'#toc'} Table of Contents
         - if toc_sections.any?
           %li
-            %a{'epub:type' => 'bodymatter', href:"../"+toc_sections.first[:href]} Start of Content
+            %a{'epub:type' => 'bodymatter', href:"../"+toc_sections.first.href} Start of Content
