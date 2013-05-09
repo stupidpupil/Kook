@@ -1,4 +1,12 @@
 require 'kook'
+require 'capybara/rspec'
+
+Capybara.app_host = 'file:///'
+Capybara.run_server = false
+Capybara.default_wait_time = 15
+Capybara.default_driver = :selenium
+
+
 
 # https://code.google.com/p/epubcheck/
 class EpubCheck
