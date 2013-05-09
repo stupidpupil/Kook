@@ -26,15 +26,13 @@ module Kook
           (current_section.nil? ? ret : current_section) << new_section
 
           current_section = new_section
-          next
-        end
 
-        if SECTION_NAMES.include? elem.name
+        elsif SECTION_NAMES.include? elem.name
           self.kook_outline(elem).each {|s| current_section << s}
-          next
+        else
+          self.kook_outline(elem, current_section)
         end
-
-        self.kook_outline(elem, current_section)
+        
       end
         
       return ret
