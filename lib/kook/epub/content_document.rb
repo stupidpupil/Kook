@@ -37,12 +37,8 @@ module Kook
     end
 
     def outline
-      return @outline unless @outline.nil?
-
-      @outline = @noko_doc.kook_outline
-      @outline.each {|s| s.set_href_with_path(epub_path)}
-
-      return @outline
+      outline = @noko_doc.kook_outline
+      outline.each {|s| s.set_href_with_path(epub_path)}
     end
 
     REFERENCED_RESOURCE_ELEMENT_ATTR_COMBINATIONS = [
