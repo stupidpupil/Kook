@@ -28,6 +28,11 @@ module Kook
           current_section = new_section
 
         elsif SECTION_NAMES.include? elem.name
+          # Head up the section tree until we reach an explicit section or run out of parents
+          while not current_section.parent.nil? and current_section.implicit?
+            current_section = current_section.parent
+          end
+
           self.kook_outline(elem).each {|s| current_section << s}
         else
           self.kook_outline(elem, current_section)

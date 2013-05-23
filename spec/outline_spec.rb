@@ -115,4 +115,49 @@ describe 'Kook::Outline#kook_outline' do
 
   end
 
+  it 'provides the expected outline for SM example 1' do
+
+    xhtml = %Q(
+
+        <!DOCTYPE html>
+        <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+        <head>
+
+                <title>Test XHTML</title>
+
+        </head>
+        <body>
+
+
+      <h1>Horses for sale</h1>
+
+         <h2>Mares</h2>
+
+         <article>
+            <h3>Pink Diva</h3>
+            <p>Pink Diva has given birth to three Grand National winners.</p>
+         </article>
+
+         <article>
+            <h3>Ring a Rosies</h3>
+            <p>Ring a Rosies has won the Derby three times.</p>
+         </article>
+       
+         <article>
+            <h3>Chelsea's Fancy</h3>
+            <p>Chelsea's Fancy has given birth to three Gold Cup winners.</p>
+         </article>
+
+            </body>
+          </html>
+      )
+
+      doc = Nokogiri.XML(xhtml)
+      doc.extend(Kook::Outline)
+
+      doc.kook_outline.map{|s| s.heading}.should eql(['Horses for sale'])
+      doc.kook_outline.first.children.map{|s| s.heading}.should eql(['Mares','Pink Diva', 'Ring a Rosies', 'Chelsea\'s Fancy'])
+
+  end
+
 end
