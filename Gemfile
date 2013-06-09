@@ -9,4 +9,5 @@ group :test do
 	gem 'rake'
   gem 'capybara'
   gem 'selenium'
+  gem 'selenium-webdriver'
 end
