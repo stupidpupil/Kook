@@ -1,4 +1,5 @@
 [![Code Climate](https://codeclimate.com/github/stupidpupil/Kook.png)](https://codeclimate.com/github/stupidpupil/Kook)
+[![Build Status](https://travis-ci.org/stupidpupil/Kook.png?branch=master)](https://travis-ci.org/stupidpupil/Kook)
 
 # Kook - a limited EPUB 3.0 writing library
 
