@@ -7,4 +7,6 @@ gem 'zip'
 group :test do
 	gem 'rspec'
 	gem 'rake'
+  gem 'capybara'
+  gem 'selenium'
 end
