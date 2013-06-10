@@ -41,6 +41,9 @@ module Kook
 
       Dir.mkdir(File.join(path,'epub'))
 
+      # Navigation file
+      Dir.mkdir(File.join(path, 'epub', 'navigation'))
+      render.call 'epub/navigation/nav.xhtml'
 
       # Rewrite Content Documents
 
@@ -64,9 +67,7 @@ module Kook
 
       render.call 'epub/package.opf'
 
-      # Navigation file
-      Dir.mkdir(File.join(path, 'epub', 'navigation'))
-      render.call 'epub/navigation/nav.xhtml'
+
 
     end
 
