@@ -4,10 +4,6 @@ task :default => [:spec]
 
 RSpec::Core::RakeTask.new(:spec) do |task|
   file_list = FileList['spec/**/*_spec.rb']
- 
-  %w(conformance).each do |exclude|
-    file_list = file_list.exclude("spec/#{exclude}/**/*_spec.rb")
-  end
- 
+  task.rspec_opts = "--tag ~epubcheck"
   task.pattern = file_list
 end
