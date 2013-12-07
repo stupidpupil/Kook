@@ -55,6 +55,6 @@ DEPENDENCIES
   nokogiri
   rake
   rspec
+  rubyzip
   selenium
   selenium-webdriver
-  zip

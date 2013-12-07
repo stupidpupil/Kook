@@ -76,14 +76,14 @@ module Kook
       self.build_directory(tempdir)
 
       # This messing about is required to ensure that the mimetype entry isn't compressed at all.
-      Zip::ZipOutputStream.open(path) do |zip|
-        entry = Zip::ZipEntry.new("", 'mimetype')
+      Zip::OutputStream.open(path) do |zip|
+        entry = Zip::Entry.new("", 'mimetype')
         entry.gather_fileinfo_from_srcpath File.join(tempdir,'mimetype')
-        zip.put_next_entry(entry, nil, nil, Zip::ZipEntry::STORED)
-        entry.get_input_stream { |is| IOExtras.copy_stream(zip, is) }
+        zip.put_next_entry(entry, nil, nil, Zip::Entry::STORED)
+        entry.get_input_stream { |is| Zip::IOExtras.copy_stream(zip, is) }
       end
 
-      Zip::ZipFile.open(path, Zip::ZipFile::CREATE) do |zipfile|
+      Zip::File.open(path, Zip::File::CREATE) do |zipfile|
 
         Dir[File.join(tempdir,"META-INF", '**', '**')].each do |file|
           zipfile.add(file.sub(tempdir+"/",''), file)

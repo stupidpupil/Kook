@@ -7,7 +7,7 @@ require 'pathname'
 require 'uri'
 require 'open-uri'
 
-require 'zip/zip'
+require 'zip'
 
 module Kook
 	DEFAULT_TEMPLATES_DIR = File.expand_path("../../templates/", __FILE__)
