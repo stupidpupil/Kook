@@ -6,4 +6,4 @@ before_script:
 env:
   - DISPLAY=":99.0"
 script:
-  - 'rake spec'
+  - 'bundle exec rake spec'
