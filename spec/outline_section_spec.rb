@@ -7,7 +7,7 @@ describe Kook::Outline::Section do
     section = Kook::Outline::Section.new(elem)
 
 		it "is implicit" do
-      section.implicit?.should be_true
+      section.implicit?.should be true
 		end
 
     it "has a heading with the text of the element" do
@@ -33,7 +33,7 @@ describe Kook::Outline::Section do
     section = Kook::Outline::Section.new(elem)
     
     it "is explicit" do
-      section.explicit?.should be_true
+      section.explicit?.should be true
     end
 
     it "has a heading of 'Untitled Article'" do
