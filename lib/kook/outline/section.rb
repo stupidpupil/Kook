@@ -22,7 +22,7 @@ module Kook
 
       # The element that the user should be 'jumped' to when trying to view this section  
       def relevant_element
-        section_element.nil? ? header_element : section_element
+        section_element or header_element
       end
 
       def associate_header(elem)
@@ -32,11 +32,11 @@ module Kook
       end
 
       def header_rank
-        header_element.nil? ? nil : header_element.name[1].to_i
+        header_element ? header_element.name[1].to_i : nil
       end
 
       def heading
-        header_element.nil? ? "Untitled #{section_element.name.capitalize}" : header_element.text
+        header_element ? header_element.text : "Untitled #{section_element.name.capitalize}"
       end
 
       def implicit?
@@ -51,8 +51,6 @@ module Kook
         @children << elem
         elem.parent = self
       end
-
-
 
     end
   end
