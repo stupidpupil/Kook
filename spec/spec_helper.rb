@@ -12,7 +12,7 @@ Capybara.default_driver = :selenium
 class EpubCheck
 
   JavaPath = "drip"
-  EpubCheckPath = "~/Downloads/epubcheck-3.0/epubcheck-3.0.jar"
+  EpubCheckPath = "~/Downloads/epubcheck-3.0.1/epubcheck-3.0.1.jar"
 
   def self.validate(epub_path)
     cmd = "#{JavaPath} -jar #{EpubCheckPath} #{epub_path}"
